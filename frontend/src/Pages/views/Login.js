@@ -16,7 +16,7 @@ import { Alert, Snackbar } from '@mui/material';
 const Login = () => {
 
     const navigate = useNavigate()
-    const [data, setData] = useState({ email: "", password: "" })
+    const [data, setData] = useState({ username: "", password: "" })
     const [alert, setAlert] = useState({ show: false, message: "", type: "" })
 
     const handleChange = (e) => {
@@ -24,15 +24,15 @@ const Login = () => {
     }
 
     const handleSubmit = () => {
-        axiosInstance('user/login/', {
+        axiosInstance('/token', {
             method: "post",
             data: data
         }).then(res => {
-            localStorage?.setItem("task_management_token", res.data?.token)
-            localStorage?.setItem("task_management_user", JSON.stringify(res.data?.user))
-            navigate("/task")
+            localStorage?.setItem("survey_management_token", JSON.stringify(res.data?.user))
+            navigate("/form")
         }).catch(err => {
-            setAlert({ show: true, message: err?.message, type: "error" })
+            console.log('err: ', err);
+            setAlert({ show: true, message: err?.response?.data?.detail, type: "error" })
         })
     };
 
@@ -66,11 +66,11 @@ const Login = () => {
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
+                            id="username"
+                            label="Username"
+                            name="username"
                             autoFocus
-                            value={data.email}
+                            value={data.username}
                             onChange={handleChange}
                         />
                         <TextField
@@ -93,13 +93,6 @@ const Login = () => {
                         >
                             Sign In
                         </Button>
-                        <Grid container>
-                            <Grid item>
-                                <Link to="/register" variant="body2">
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
-                            </Grid>
-                        </Grid>
                     </Box>
                 </Box>
             </Container>

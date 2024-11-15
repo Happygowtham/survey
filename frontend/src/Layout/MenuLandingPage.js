@@ -21,8 +21,6 @@ import { useState } from 'react';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import GroupIcon from '@mui/icons-material/Group';
-import ResetPassword from "./ResetPassword";
-import axiosInstance from '../axiosInstance';
 
 const drawerWidth = 240;
 
@@ -75,8 +73,7 @@ const MenuLandingPage = ({ children }) => {
     const navigate = useNavigate()
     const theme = useTheme();
     const [open, setOpen] = useState(false);
-    const [showPasswod, setShowPassword] = useState(false);
-    const user = JSON.parse(localStorage?.getItem("task_management_user"));
+    const user = JSON.parse(localStorage?.getItem("survey_management_user"));
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -86,66 +83,22 @@ const MenuLandingPage = ({ children }) => {
         setOpen(false);
     };
 
-    const Routes = [
-        { title: 'Tasks', route: "/task", icon: <AssignmentIcon />, show: true },
-        { title: 'Projects', route: "/project", icon: <AccountTreeIcon />, show: user?.role === "admin" },
-        { title: 'Users', route: "/user", icon: <GroupIcon />, show: user?.role === "admin" }
-    ];
-
     const handleLogout = () => {
-        localStorage.removeItem("task_management_token");
+        localStorage.removeItem("survey_management_token");
         navigate("/")
     }
 
-    const handleChangePassword = () => {
-        setShowPassword(true)
-    }
-
-    const handleSubmitPassword = (data) => {
-        setShowPassword(false);
-        axiosInstance("/user/changePassword", {
-            method: "POST",
-            data: {
-                id: user?._id,
-                newPassword: data
-            }
-        }).then(res => {
-            localStorage.removeItem("task_management_token");
-            localStorage.removeItem("task_management_user");
-            navigate("/")
-        }).catch(err => {
-            console.log(err)
-        })
-    }
 
     return (
         <>
-            {
-                showPasswod &&
-                <ResetPassword cancel={() => setShowPassword(false)} confirm={handleSubmitPassword} />
-            }
+
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <AppBar position="fixed" open={open}>
                     <Toolbar>
-                        {
-                            !open &&
-                            <IconButton
-                                size="large"
-                                edge="start"
-                                color="inherit"
-                                aria-label="menu"
-                                sx={{ mr: 2 }}
-                                onClick={handleDrawerOpen}
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                        }
-
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                            Task Management
+                            Risk Management
                         </Typography>
-                        <Button color="inherit" onClick={() => handleChangePassword()}>Change Password</Button>
                         <Button color="inherit" onClick={() => handleLogout()}>Logout</Button>
                     </Toolbar>
                 </AppBar>
@@ -168,21 +121,6 @@ const MenuLandingPage = ({ children }) => {
                         </IconButton>
                     </DrawerHeader>
                     <Divider />
-                    <List>
-                        {Routes.map((res, index) => (
-                            res?.show &&
-                            <Link key={index} to={res?.route} style={{ textDecoration: 'none', color: "black" }}>
-                                <ListItem disablePadding>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            {res?.icon}
-                                        </ListItemIcon>
-                                        <ListItemText primary={res?.title} />
-                                    </ListItemButton>
-                                </ListItem>
-                            </Link>
-                        ))}
-                    </List>
                 </Drawer>
                 <Main open={open}>
                     <DrawerHeader />

@@ -1,11 +1,11 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import { Navigate } from 'react-router-dom'
-import Register from './Pages/views/Register';
 import Login from './Pages/views/Login';
+import Forms from './Pages/views/Forms';
 
 function ProtectedRoute() {
-  let isAuthenticated = localStorage.getItem("task_management_token")
+  let isAuthenticated = localStorage.getItem("survey_management_token")
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
   }
@@ -18,8 +18,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
         <Route element={<ProtectedRoute />}>
+          <Route path="/form" element={<Forms />} />
         </Route>
       </Routes>
     </BrowserRouter>
