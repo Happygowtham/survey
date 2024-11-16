@@ -8,9 +8,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("survey_management_token");;
-        config.headers.Authorization = token
-            ? `${token}`
-            : "";
+        config.headers.Authorization = `Bearer ${token}`;
         return config;
     },
     (error) => {
@@ -28,9 +26,7 @@ axiosInstance.interceptors.response.use(
             return new Promise(function (resolve, reject) {
                 const newConfig = error.config;
                 const token = localStorage.getItem("survey_management_token");
-                newConfig.headers.Authorization = token
-                    ? `${token}`
-                    : "";
+                newConfig.headers.Authorization = `Bearer ${token}`;
                 axios(newConfig)
                     .then((response) => {
                         resolve(response);
