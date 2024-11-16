@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
 
 const FormsLandingPage = () => {
 
@@ -63,13 +64,11 @@ const FormsLandingPage = () => {
                                 <Grid item xs={12} md={4}>
                                     <Card sx={{ p: 2 }}>
                                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                            <Typography variant="h5">{res.id}{res?.name}</Typography>
-                                            {
-                                                res?.is_published ?
-                                                    <Button color="success" title="Published" startIcon={<DoneIcon />}></Button>
-                                                    :
-                                                    <Button color="error" title="Not Published" startIcon={<CloseIcon />}></Button>
-                                            }
+                                            <Typography variant="h5">{res?.name}</Typography>
+                                            <Box>
+                                                <Button onClick={() => { navigator.clipboard.writeText(`http://localhost:3000/form-response/${res?.id}`); alert('Link copied to clipboard') }} title="Copy link to share" startIcon={<InsertLinkIcon />}></Button>
+                                            </Box>
+
                                         </Box>
                                         <Typography variant="body1">{res?.description}</Typography>
                                     </Card>

@@ -65,8 +65,10 @@ class AnswerSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         answers = validated_data.get('answers', {})
+        form_id = self.context.get('request').data.get('form')
+        form = Form.objects.get(id=form_id)
         for question_id, response in answers.items():
             question = Question.objects.get(id=question_id)
-            Answer.objects.create(question=question, response=response)
+            Answer.objects.create(question=question, response=response, form=form)
         return answers
 

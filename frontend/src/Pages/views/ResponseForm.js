@@ -34,7 +34,7 @@ const ResponseForm = () => {
     const handleClick = () => {
         axiosInstance('answer/', {
             method: "POST",
-            data: { answers: { ...input } }
+            data: { answers: { ...input }, form: id }
         }).then(res => {
             if (currentStep === data.length - 1) {
                 alert('Form submitted successfully. Thank you for your response.')

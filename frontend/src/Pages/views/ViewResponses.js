@@ -10,6 +10,7 @@ const ViewResponses = () => {
     const [data, setData] = useState([])
     const [selectedForm, setSelectedForm] = useState("")
     const [answers, setAnswers] = useState([])
+    console.log('answers: ', answers);
 
     useEffect(() => {
         axiosInstance('forms/', {
@@ -32,7 +33,7 @@ const ViewResponses = () => {
     return (
         <Base>
             <FormControl sx={{ m: 1, width: 300 }}>
-                <InputLabel id="demo-multiple-name-label">Select Form</InputLabel>
+                <InputLabel id="demo-multiple-name-label">Select Form to view response</InputLabel>
                 <Select
                     labelId="demo-multiple-name-label"
                     id="demo-multiple-name"
@@ -51,9 +52,12 @@ const ViewResponses = () => {
                 </Select>
             </FormControl>
             {
+                (selectedForm !== "" && answers.length === 0) && <h5> No Answers Yet</h5>
+            }
+            {
                 selectedForm !== "" && <Forms view_id={selectedForm} answers={answers} />
             }
-        </Base>
+        </Base >
     )
 }
 

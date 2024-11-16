@@ -97,7 +97,7 @@ const MenuLandingPage = ({ children }) => {
                 <AppBar position="fixed" open={open}>
                     <Toolbar>
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                            Risk Management
+                            Survey Management
                         </Typography>
                         <Button color="inherit" onClick={() => handleLogout()}>Logout</Button>
                     </Toolbar>

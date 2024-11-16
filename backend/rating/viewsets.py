@@ -45,8 +45,8 @@ class FormListView(APIView):
 
     def get(self, request, *args, **kwargs):
         category_list = []
-        form_id = request.query_params.get('form_id')
-        for category in Category.objects.filter(form_id=14):
+        form_id = kwargs.get('form_id')
+        for category in Category.objects.filter(form_id=form_id):
             category_obj = {
                 "id": category.id,
                 "name": category.name,
